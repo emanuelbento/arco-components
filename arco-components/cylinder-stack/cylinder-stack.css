@@ -1,0 +1,114 @@
+/* =============================================
+   ARCO — Cylinder Stack
+   arco.studio
+   
+   Customize these variables:
+============================================= */
+
+:root {
+  --arco-card-width: 620px;
+  --arco-card-height: 380px;
+  --arco-card-radius: 10px;
+  --arco-bg: #0d0c0f;
+  --arco-label-color: #ffffff;
+  --arco-cylinder-radius: 320px;
+  --arco-angle-step: 36deg;
+  --arco-scrub-speed: 1.2;
+}
+
+.arco-fixed-stage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+}
+
+.arco-stack-wrap {
+  width: var(--arco-card-width);
+  height: var(--arco-card-height);
+  position: relative;
+  transform-style: preserve-3d;
+  pointer-events: auto;
+}
+
+.arco-card {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--arco-card-radius);
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+.arco-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.arco-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5) 100%);
+  pointer-events: none;
+}
+
+.arco-scroll-spacer {
+  height: 600vh;
+}
+
+.arco-project-label {
+  position: fixed;
+  bottom: 40px;
+  left: 48px;
+  z-index: 100;
+  pointer-events: none;
+  color: var(--arco-label-color);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.arco-label-index {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.4;
+  margin-bottom: 6px;
+}
+
+.arco-label-name {
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+.arco-progress-dots {
+  position: fixed;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 100;
+}
+
+.arco-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  transition: all 0.4s ease;
+}
+
+.arco-dot.active {
+  background: white;
+  transform: scale(1.4);
+}
