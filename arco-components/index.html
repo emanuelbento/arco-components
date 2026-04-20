@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arco — Cylinder Stack</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0d0c0f;
+      --card-w: 620px;
+      --card-h: 380px;
+    }
+
+    html, body {
+      background: var(--bg);
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .scroll-spacer { height: 600vh; }
+
+    .fixed-stage {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      perspective: 1200px;
+      perspective-origin: 50% 50%;
+    }
+
+    .stack-wrap {
+      width: var(--card-w);
+      height: var(--card-h);
+      position: relative;
+      transform-style: preserve-3d;
+      pointer-events: auto;
+    }
+
+    .card {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      will-change: transform, opacity;
+    }
+
+    .card img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5) 100%);
+      pointer-events: none;
+    }
+
+    .project-label {
+      position: fixed;
+      bottom: 40px; left: 48px;
+      z-index: 100; pointer-events: none;
+    }
+
+    .label-index {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.4; margin-bottom: 6px;
+    }
+
+    .label-name {
+      font-size: 22px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+
+    .progress-dots {
+      position: fixed;
+      right: 40px; top: 50%;
+      transform: translateY(-50%);
+      display: flex; flex-direction: column;
+      gap: 10px; z-index: 100;
+    }
+
+    .dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      transition: all 0.4s ease;
+    }
+
+    .dot.active { background: white; transform: scale(1.4); }
+  </style>
+</head>
+<body>
+
+  <div class="fixed-stage">
+    <div class="stack-wrap" id="stackWrap">
+      <div class="card" data-label="Elements">
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&auto=format&fit=crop" alt="">
+      </div>
+      <div class="card" data-label="Motion">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&auto=format&fit=crop" alt="">
+      </div>
+      <div class="card" data-label="Photography">
+        <img src="https://images.unsplash.com/photo-1504703395950-b89145a5425b?w=900&auto=format&fit=crop" alt="">
+      </div>
+      <div class="card" data-label="Typography">
+        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=900&auto=format&fit=crop" alt="">
+      </div>
+      <div class="card" data-label="Sound">
+        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=900&auto=format&fit=crop" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-spacer" id="spacer"></div>
+
+  <div class="project-label">
+    <div class="label-index" id="labelIndex">01 / 05</div>
+    <div class="label-name" id="labelName">Elements</div>
+  </div>
+
+  <div class="progress-dots" id="dots"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const cards = Array.from(document.querySelectorAll('.card'));
+    const total = cards.length;
+    const labelName = document.getElementById('labelName');
+    const labelIndex = document.getElementById('labelIndex');
+    const dotsContainer = document.getElementById('dots');
+
+    cards.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      dotsContainer.appendChild(d);
+    });
+    const dots = Array.from(dotsContainer.querySelectorAll('.dot'));
+
+    // Cylinder radius in px — controls how far apart cards feel
+    const RADIUS = 320;
+    // Degrees between each card face
+    const ANGLE_STEP = 36; // 360 / 10 — gives breathing room
+
+    function update(progress) {
+      const activeF = progress * (total - 1);
+
+      cards.forEach((card, i) => {
+        const offset = i - activeF;
+
+        // Each card rotates around X axis as if on a cylinder
+        const rotX = offset * ANGLE_STEP;
+        // Y position follows the arc of the cylinder
+        const transY = Math.sin((rotX * Math.PI) / 180) * RADIUS;
+        // Z position follows the cosine (depth)
+        const transZ = (Math.cos((rotX * Math.PI) / 180) - 1) * RADIUS;
+
+        const absOffset = Math.abs(offset);
+        const opacity = Math.max(0, 1 - absOffset * 0.45);
+        const scale = 1 - absOffset * 0.04;
+        const zIndex = Math.round(1000 - absOffset * 100);
+
+        gsap.set(card, {
+          rotateX: rotX,
+          y: transY,
+          z: transZ,
+          scale: scale,
+          opacity: opacity,
+          zIndex: zIndex,
+          transformOrigin: '50% 50%',
+        });
+      });
+
+      const idx = Math.max(0, Math.min(total - 1, Math.round(activeF)));
+      const newLabel = cards[idx].dataset.label;
+
+      if (labelName.textContent !== newLabel) {
+        gsap.to(labelName, {
+          opacity: 0, y: -6, duration: 0.15,
+          onComplete: () => {
+            labelName.textContent = newLabel;
+            gsap.to(labelName, { opacity: 1, y: 0, duration: 0.2 });
+          }
+        });
+      }
+
+      labelIndex.textContent = String(idx + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+    }
+
+    update(0);
+
+    ScrollTrigger.create({
+      trigger: '#spacer',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 1.2,
+      onUpdate: self => update(self.progress)
+    });
+  </script>
+
+</body>
+</html>
