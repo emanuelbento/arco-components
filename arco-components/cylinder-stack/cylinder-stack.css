@@ -1,21 +1,9 @@
-/* =============================================
-   ARCO — Cylinder Stack
+/* ================================
+   Arco — Cylinder Stack
    arco.studio
-   
-   Customize these variables:
-============================================= */
+   ================================ */
 
-:root {
-  --arco-card-width: 620px;
-  --arco-card-height: 380px;
-  --arco-card-radius: 10px;
-  --arco-bg: #0d0c0f;
-  --arco-label-color: #ffffff;
-  --arco-cylinder-radius: 320px;
-  --arco-angle-step: 36deg;
-  --arco-scrub-speed: 1.2;
-}
-
+/* ------------------------- Stage */
 .arco-fixed-stage {
   position: fixed;
   top: 0;
@@ -25,23 +13,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
   perspective: 1200px;
   perspective-origin: 50% 50%;
+  z-index: 10;
 }
 
+/* ------------------------- Stack */
 .arco-stack-wrap {
-  width: var(--arco-card-width);
-  height: var(--arco-card-height);
+  width: 620px;
+  height: 380px;
   position: relative;
   transform-style: preserve-3d;
-  pointer-events: auto;
 }
 
+/* ------------------------- Cards */
 .arco-card {
   position: absolute;
   inset: 0;
-  border-radius: var(--arco-card-radius);
+  border-radius: 10px;
   overflow: hidden;
   will-change: transform, opacity;
 }
@@ -61,17 +50,20 @@
   pointer-events: none;
 }
 
+/* ------------------------- Spacer */
 .arco-scroll-spacer {
   height: 600vh;
+  z-index: 1;
 }
 
+/* ------------------------- Label */
 .arco-project-label {
   position: fixed;
   bottom: 40px;
   left: 48px;
   z-index: 100;
   pointer-events: none;
-  color: var(--arco-label-color);
+  color: white;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -89,6 +81,7 @@
   letter-spacing: 0.02em;
 }
 
+/* ------------------------- Dots */
 .arco-progress-dots {
   position: fixed;
   right: 40px;
@@ -111,4 +104,25 @@
 .arco-dot.active {
   background: white;
   transform: scale(1.4);
+}
+
+/* ------------------------- Mobile */
+@media screen and (max-width: 767px) {
+  .arco-stack-wrap {
+    width: 90vw;
+    height: 56.25vw;
+  }
+
+  .arco-project-label {
+    bottom: 2rem;
+    left: 1.5rem;
+  }
+
+  .arco-label-name {
+    font-size: 18px;
+  }
+
+  .arco-progress-dots {
+    right: 1.5rem;
+  }
 }
