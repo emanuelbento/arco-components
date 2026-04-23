@@ -1,16 +1,10 @@
-/* ================================
-   Arco — Cursor Trail
-   arco.studio
-   ================================ */
-
 (function () {
-
   gsap.config({ force3D: true });
 
-  const cursor = document.getElementById('arcoCursor');
+  const cursor    = document.getElementById('arcoCursor');
+  const setCursor = gsap.quickSetter(cursor, 'css');
 
-  /* ------------------------- Images */
-  const images = [
+  const srcs = [
     'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=600&auto=format&fit=crop&q=90',
     'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=90',
     'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=600&auto=format&fit=crop&q=90',
@@ -25,140 +19,210 @@
     'https://images.unsplash.com/photo-1495726569656-8b8886143e6a?w=600&auto=format&fit=crop&q=90',
   ];
 
-  images.forEach(src => { const i = new Image(); i.src = src; });
+  srcs.forEach(src => { new Image().src = src; });
 
-  /* ------------------------- Config */
-  const POOL_SIZE = 50;
-  const AUTO_INTERVAL = 450;
-  const STEP = 55;
-  const SHOW_DURATION = 1000;
-  const FADE_IN = 0.5;
-  const FADE_OUT = 0.85;
+  const POOL_SIZE      = 30;
+  const GAP            = 55;
+  const AUTO_INTERVAL  = 0.45;
+  const IDLE_THRESHOLD = 0.12;
 
-  let mouseX = 0;
-  let mouseY = 0;
-  let lastSpawnX = 0;
-  let lastSpawnY = 0;
-  let imgIndex = 0;
-  let zCounter = 100;
-  let pool = [];
-  let hasMovedOnce = false;
+  const wrapSrc = gsap.utils.wrap(0, srcs.length);
+  const wrapEl  = gsap.utils.wrap(0, POOL_SIZE);
 
-  /* ------------------------- Pool */
-  for (let i = 0; i < POOL_SIZE; i++) {
+  let index          = 0;
+  let mousePos       = { x: 0, y: 0 };
+  let lastMousePos   = { x: 0, y: 0 };
+  let cachedMousePos = { x: 0, y: 0 };
+  let lastAutoTime   = 0;
+  let lastMoveTime   = 0;
+  let hasMovedOnce   = false;
+
+  let audioCtx    = null;
+  let masterGain  = null;
+  let oscs        = [];
+  let audioReady  = false;
+  let isAudible   = false;
+
+  function buildImpulse(ctx, duration, decay) {
+    const length  = ctx.sampleRate * duration;
+    const impulse = ctx.createBuffer(2, length, ctx.sampleRate);
+    for (let c = 0; c < 2; c++) {
+      const ch = impulse.getChannelData(c);
+      for (let i = 0; i < length; i++) {
+        ch[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
+      }
+    }
+    return impulse;
+  }
+
+  function initAudio() {
+    if (audioReady) return;
+
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    const filter           = audioCtx.createBiquadFilter();
+    filter.type            = 'lowpass';
+    filter.frequency.value = 800;
+    filter.Q.value         = 1.2;
+
+    const convolver  = audioCtx.createConvolver();
+    convolver.buffer = buildImpulse(audioCtx, 4, 2);
+
+    const dryGain       = audioCtx.createGain();
+    dryGain.gain.value  = 0.5;
+
+    const wetGain       = audioCtx.createGain();
+    wetGain.gain.value  = 1.4;
+
+    masterGain = audioCtx.createGain();
+    masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+
+    filter.connect(dryGain);
+    filter.connect(convolver);
+    convolver.connect(wetGain);
+    dryGain.connect(masterGain);
+    wetGain.connect(masterGain);
+    masterGain.connect(audioCtx.destination);
+
+    const chordFreqs = [130.81, 164.81, 196.00, 246.94];
+    const detunings  = [0, 6, -5, 3];
+
+    oscs = chordFreqs.map((freq, i) => {
+      const osc           = audioCtx.createOscillator();
+      osc.type            = 'sine';
+      osc.frequency.value = freq;
+      osc.detune.value    = detunings[i];
+      osc.connect(filter);
+      osc.start();
+      return osc;
+    });
+
+    audioReady = true;
+  }
+
+  function soundOn(speed) {
+    if (!audioReady) return;
+
+    const clamped  = gsap.utils.clamp(0, 600, speed);
+    const volume   = gsap.utils.mapRange(0, 600, 0.08, 0.22, clamped);
+    const pitchMod = gsap.utils.mapRange(0, 600, 0, 18, clamped);
+    const now      = audioCtx.currentTime;
+
+    oscs.forEach((osc, i) => {
+      osc.detune.cancelScheduledValues(now);
+      osc.detune.linearRampToValueAtTime([0, 6, -5, 3][i] + pitchMod, now + 0.1);
+    });
+
+    masterGain.gain.cancelScheduledValues(now);
+    masterGain.gain.linearRampToValueAtTime(volume, now + (isAudible ? 0.1 : 0.25));
+    isAudible = true;
+  }
+
+  function soundOff() {
+    if (!audioReady || !isAudible) return;
+    const now = audioCtx.currentTime;
+    masterGain.gain.cancelScheduledValues(now);
+    masterGain.gain.linearRampToValueAtTime(0, now + 0.9);
+    isAudible = false;
+  }
+
+  document.addEventListener('mousedown', () => {
+    initAudio();
+    audioCtx?.resume();
+  }, { once: true });
+
+  const pool = Array.from({ length: POOL_SIZE }, () => {
     const img = document.createElement('img');
     img.className = 'arco-trail-img';
     document.body.appendChild(img);
-    pool.push({ el: img, state: 'free', timer: null, spawnedAt: 0 });
-  }
+    return img;
+  });
 
-  /* ------------------------- Fade out */
-  function fadeOut(item) {
-    if (item.state === 'out' || item.state === 'free') return;
-    if (item.timer) { clearTimeout(item.timer); item.timer = null; }
-    item.state = 'out';
-    gsap.to(item.el, {
-      opacity: 0,
-      scale: 0.93,
-      duration: FADE_OUT,
-      ease: 'power2.inOut',
-      overwrite: 'auto',
-      onComplete: () => { item.state = 'free'; }
-    });
-  }
-
-  /* ------------------------- Pool */
-  function getFromPool() {
-    const free = pool.find(p => p.state === 'free');
-    if (free) return free;
-
-    const out = pool.find(p => p.state === 'out');
-    if (out) {
-      gsap.killTweensOf(out.el);
-      out.state = 'free';
-      return out;
-    }
-
-    const visibles = pool.filter(p => p.state === 'visible');
-    if (visibles.length > 0) {
-      const oldest = visibles.reduce((a, b) => a.spawnedAt < b.spawnedAt ? a : b);
-      fadeOut(oldest);
-      return oldest;
-    }
-
-    return pool[imgIndex % POOL_SIZE];
-  }
-
-  /* ------------------------- Spawn */
-  function spawnImage(x, y) {
-    const item = getFromPool();
-    if (!item) return;
-
-    if (item.timer) { clearTimeout(item.timer); item.timer = null; }
-
-    const el = item.el;
-    const src = images[imgIndex % images.length];
-    imgIndex++;
-    zCounter++;
-
-    const rot = (Math.random() - 0.5) * 20;
-
-    item.state = 'in';
-    item.spawnedAt = Date.now();
+  function spawnImage(x, y, deltaX, deltaY) {
+    const el = pool[wrapEl(index)];
+    el.src   = srcs[wrapSrc(index)];
 
     gsap.killTweensOf(el);
-    el.src = src;
-
+    gsap.set(el, { clearProps: 'all' });
     gsap.set(el, {
-      left: x - 130,
-      top: y - 130,
-      rotation: rot * 0.5,
-      scale: 0.78,
-      opacity: 0,
-      zIndex: zCounter,
+      left:     x,
+      top:      y,
+      xPercent: -50,
+      yPercent: -50,
+      rotation: 'random(-20,20)',
+      scale:    1,
+      opacity:  0,
+      zIndex:   index,
     });
 
-    gsap.to(el, {
-      opacity: 1,
-      scale: 1,
-      rotation: rot,
-      duration: FADE_IN,
-      ease: 'expo.out',
-      onComplete: () => {
-        if (item.state === 'in') {
-          item.state = 'visible';
-          item.timer = setTimeout(() => fadeOut(item), SHOW_DURATION);
-        }
-      }
-    });
+    gsap.timeline()
+      .to(el, { opacity: 1, duration: 0.2 })
+      .to(el, {
+        x:        '+=' + (deltaX * 40),
+        y:        '+=' + (deltaY * 40),
+        ease:     'power4.out',
+        duration: 1,
+      }, '<')
+      .to(el, {
+        opacity:  0,
+        scale:    0.93,
+        ease:     'power2.inOut',
+        duration: 0.85,
+      }, '+=1');
+
+    index++;
   }
 
-  /* ------------------------- Mouse */
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+  gsap.ticker.add((time) => {
+    if (!hasMovedOnce) return;
 
-    gsap.to(cursor, { x: mouseX, y: mouseY, duration: 0.1, ease: 'none' });
+    setCursor({ x: mousePos.x, y: mousePos.y });
 
-    if (!hasMovedOnce) {
-      hasMovedOnce = true;
-      lastSpawnX = mouseX;
-      lastSpawnY = mouseY;
-      setInterval(() => { spawnImage(mouseX, mouseY); }, AUTO_INTERVAL);
+    cachedMousePos.x = gsap.utils.interpolate(cachedMousePos.x || mousePos.x, mousePos.x, 0.1);
+    cachedMousePos.y = gsap.utils.interpolate(cachedMousePos.y || mousePos.y, mousePos.y, 0.1);
+
+    const dx   = mousePos.x - lastMousePos.x;
+    const dy   = mousePos.y - lastMousePos.y;
+    const dist = Math.hypot(dx, dy);
+    const idle = time - lastMoveTime > IDLE_THRESHOLD;
+
+    if (idle) {
+      soundOff();
     }
 
-    const dx = mouseX - lastSpawnX;
-    const dy = mouseY - lastSpawnY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist >= GAP) {
+      const steps  = Math.floor(dist / GAP);
+      const deltaX = dx / dist;
+      const deltaY = dy / dist;
 
-    if (dist >= STEP) {
-      const steps = Math.floor(dist / STEP);
+      soundOn(dist);
+
       for (let i = 1; i <= steps; i++) {
         const t = i / steps;
-        spawnImage(lastSpawnX + dx * t, lastSpawnY + dy * t);
+        spawnImage(
+          gsap.utils.interpolate(lastMousePos.x, mousePos.x, t),
+          gsap.utils.interpolate(lastMousePos.y, mousePos.y, t),
+          deltaX,
+          deltaY
+        );
       }
-      lastSpawnX = mouseX;
-      lastSpawnY = mouseY;
+
+      lastMousePos = { x: mousePos.x, y: mousePos.y };
+
+    } else if (time - lastAutoTime > AUTO_INTERVAL) {
+      spawnImage(mousePos.x, mousePos.y, 0, 0);
+      lastAutoTime = time;
+    }
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    mousePos     = { x: e.clientX, y: e.clientY };
+    lastMoveTime = gsap.ticker.time;
+
+    if (!hasMovedOnce) {
+      hasMovedOnce   = true;
+      lastMousePos   = { x: e.clientX, y: e.clientY };
+      cachedMousePos = { x: e.clientX, y: e.clientY };
     }
   });
 
