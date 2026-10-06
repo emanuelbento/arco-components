@@ -54,19 +54,13 @@
   box-sizing: border-box;
 }
 
-html,
 body {
-  height: 100%;
   margin: 0;
-}
-
-body {
   background-color: var(--arco-stage);
   color: var(--arco-ink-invert);
   font-family: var(--arco-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
 }
 
 /* Stage */
@@ -77,6 +71,7 @@ body {
   height: 100vh;
   height: 100dvh;
   padding-inline: var(--arco-stage-pad);
+  overflow: clip;
   background-color: var(--arco-stage);
 }
 
