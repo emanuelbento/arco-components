@@ -35,6 +35,22 @@ An image trail that follows the cursor. Images spawn continuously and fade out s
 
 ---
 
+### Accordion
+Expanding panels that open on hover. Flip handles the resize, SplitText masks the title lines, and three CustomEase presets (`signature`, `smooth`, `snappy`) set the feel. Stacks vertically on phones and portrait tablets.
+
+**Files**
+- `accordion.html` — HTML structure
+- `accordion.css` — Styles and CSS variables
+- `accordion.js` — Animation logic
+
+**Dependencies**
+- GSAP 3.15
+- Flip 3.15
+- SplitText 3.15
+- CustomEase 3.15
+
+---
+
 ## Usage
 
 1. Add GSAP to your `<head>`
