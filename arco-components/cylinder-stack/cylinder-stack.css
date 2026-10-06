@@ -3,126 +3,200 @@
    arco.studio
    ================================ */
 
-/* ------------------------- Stage */
-.arco-fixed-stage {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  perspective: 1200px;
-  perspective-origin: 50% 50%;
-  z-index: 10;
+:root {
+  --arco-stage: #08070a;
+  --arco-ink-invert: #f2f0ed;
+  --arco-ink-muted: rgb(242 240 237 / 0.45);
+
+  --arco-font: "Inter Tight", "Neue Haas Grotesk Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --arco-radius: 1.125rem;
+  --arco-stage-pad: 1.25rem;
+  --arco-bar-height: 3.5rem;
+
+  --arco-cylinder-width: min(40rem, 70vw, (100dvh - 14rem) * 16 / 9);
+  --arco-cylinder-perspective: 1600px;
+
+  color-scheme: dark;
 }
 
-/* ------------------------- Stack */
-.arco-stack-wrap {
-  width: 620px;
-  height: 380px;
+@media (max-width: 767px) {
+  :root {
+    --arco-radius: 0.875rem;
+    --arco-stage-pad: 0.75rem;
+    --arco-bar-height: 3rem;
+    --arco-cylinder-width: calc(100vw - 2.5rem);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--arco-stage);
+  color: var(--arco-ink-invert);
+  font-family: var(--arco-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Stage, pinned while the cylinder turns */
+
+.section_arco-cylinder-stack {
+  display: grid;
+  grid-template-rows: var(--arco-bar-height) minmax(0, 1fr) auto;
+  height: 100vh;
+  height: 100dvh;
+  padding-inline: var(--arco-stage-pad);
+  background-color: var(--arco-stage);
+  overflow: hidden;
+}
+
+.arco-cylinder-stack_bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.arco-cylinder-stack_logo {
+  display: flex;
+  color: var(--arco-ink-invert);
+}
+
+.arco-cylinder-stack_logo svg {
+  display: block;
+  width: 4.25rem;
+  height: auto;
+}
+
+.arco-cylinder-stack_bar-muted {
+  color: var(--arco-ink-muted);
+}
+
+/* Cylinder */
+
+.arco-cylinder-stack_component {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  perspective: var(--arco-cylinder-perspective);
+}
+
+.arco-cylinder-stack_track {
   position: relative;
+  width: var(--arco-cylinder-width);
+  aspect-ratio: 16 / 9;
   transform-style: preserve-3d;
 }
 
-/* ------------------------- Cards */
-.arco-card {
+.arco-cylinder-stack_card {
   position: absolute;
   inset: 0;
-  border-radius: 10px;
+  margin: 0;
+  border-radius: var(--arco-radius);
   overflow: hidden;
-  will-change: transform, opacity;
+  backface-visibility: hidden;
+  background-color: #141316;
 }
 
-.arco-card img {
+.arco-cylinder-stack_image {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-.arco-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5) 100%);
-  pointer-events: none;
-}
+/* Footer: label on the left, dots on the right */
 
-/* ------------------------- Spacer */
-.arco-scroll-spacer {
-  height: 600vh;
-  z-index: 1;
-}
-
-/* ------------------------- Label */
-.arco-project-label {
-  position: fixed;
-  bottom: 40px;
-  left: 48px;
-  z-index: 100;
-  pointer-events: none;
-  color: white;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-.arco-label-index {
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  opacity: 0.4;
-  margin-bottom: 6px;
-}
-
-.arco-label-name {
-  font-size: 22px;
-  font-weight: 300;
-  letter-spacing: 0.02em;
-}
-
-/* ------------------------- Dots */
-.arco-progress-dots {
-  position: fixed;
-  right: 40px;
-  top: 50%;
-  transform: translateY(-50%);
+.arco-cylinder-stack_footer {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 100;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1.25rem;
 }
 
-.arco-dot {
-  width: 5px;
-  height: 5px;
+.arco-cylinder-stack_label {
+  display: grid;
+  gap: 0.375rem;
+}
+
+.arco-cylinder-stack_label-index {
+  color: var(--arco-ink-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.arco-cylinder-stack_label-mask {
+  overflow: clip;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.arco-cylinder-stack_label-name {
+  display: block;
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+.arco-cylinder-stack_dots {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.arco-cylinder-stack_dot {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.arco-cylinder-stack_dot::before {
+  content: "";
+  width: 0.375rem;
+  height: 0.375rem;
   border-radius: 50%;
-  background: rgba(255,255,255,0.25);
-  transition: all 0.4s ease;
+  background-color: var(--arco-ink-invert);
+  opacity: 0.25;
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.arco-dot.active {
-  background: white;
-  transform: scale(1.4);
+.arco-cylinder-stack_dot:hover::before {
+  opacity: 0.6;
 }
 
-/* ------------------------- Mobile */
-@media screen and (max-width: 767px) {
-  .arco-stack-wrap {
-    width: 90vw;
-    height: 56.25vw;
-  }
+.arco-cylinder-stack_dot[aria-current="true"]::before {
+  opacity: 1;
+  transform: scale(1.35);
+}
 
-  .arco-project-label {
-    bottom: 2rem;
-    left: 1.5rem;
-  }
+.arco-cylinder-stack_dot:focus-visible {
+  outline: 2px solid var(--arco-ink-invert);
+  outline-offset: 2px;
+  border-radius: 50%;
+}
 
-  .arco-label-name {
-    font-size: 18px;
-  }
-
-  .arco-progress-dots {
-    right: 1.5rem;
+@media (prefers-reduced-motion: reduce) {
+  .arco-cylinder-stack_dot::before {
+    transition: none;
   }
 }

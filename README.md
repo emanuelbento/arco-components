@@ -9,7 +9,7 @@ Arco is a library of high-quality animation components built with GSAP. Each com
 ## Components
 
 ### Cylinder Stack
-A scroll-driven 3D cylinder stack. Cards rotate on a cylindrical axis as you scroll, with a live project label and progress indicator.
+A pinned scroll section where cards turn on a 3D cylinder. ScrollTrigger pins the section and snaps to each card, the active card lights up while the rest fall into shadow, and the label swaps with a masked transition. Dots jump to any card. With reduced motion the cards crossfade in place.
 
 **Files**
 - `cylinder-stack.html` — HTML structure
@@ -19,6 +19,7 @@ A scroll-driven 3D cylinder stack. Cards rotate on a cylindrical axis as you scr
 **Dependencies**
 - GSAP 3.15
 - ScrollTrigger 3.15
+- CustomEase 3.15
 
 ---
 
