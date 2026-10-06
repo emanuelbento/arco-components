@@ -24,12 +24,12 @@ A pinned scroll section where cards turn on a 3D cylinder. ScrollTrigger pins th
 ---
 
 ### Cursor Trail
-An image trail that follows the cursor. Images spawn continuously and fade out smoothly, with random rotation for a natural feel.
+An image trail that follows the cursor. Images are spaced by distance, drift in the direction of movement and fade out, and a few keep appearing while the cursor rests. An optional ambient chord reacts to speed. Works with touch, and with reduced motion the images appear without rotation or drift.
 
 **Files**
 - `cursor-trail.html` — HTML structure
-- `cursor-trail.css` — Styles
-- `cursor-trail.js` — Animation logic
+- `cursor-trail.css` — Styles and CSS variables
+- `cursor-trail.js` — Animation and sound
 
 **Dependencies**
 - GSAP 3.15
