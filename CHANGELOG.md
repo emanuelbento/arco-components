@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0 (2026-10-12)
+
+### Added
+- Orbit: navigation on an arc with drag and inertia, a wheel that hands back to the page at either end, keyboard and tab support, an arch-shaped preview that rises from its base and leans with the speed of the turn, small arches above the side links, an open view where the arch grows to full bleed and the bar text adapts to the image, and an optional note per link that also plays on iOS in silent mode. Seven Arco Studies artworks in SVG.
+
 ## 1.0.0 (2026-10-07)
 
 First release.
