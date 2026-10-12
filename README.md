@@ -11,6 +11,7 @@ Each component is a folder with three files: the HTML structure, the CSS and the
 | [Accordion](#accordion) | Panels that expand on hover | Flip, SplitText, CustomEase |
 | [Cylinder Stack](#cylinder-stack) | Cards turning on a 3D cylinder as you scroll | ScrollTrigger, CustomEase |
 | [Cursor Trail](#cursor-trail) | An image trail that follows the cursor | Core |
+| [Orbit](#orbit) | Navigation laid out on an arc you drag, scroll or tab through | Draggable, InertiaPlugin, CustomEase |
 
 ---
 
@@ -77,6 +78,35 @@ The trail images are the `<img>` tags inside `.arco-cursor-trail_sources`, so in
 
 ---
 
+### Orbit
+
+Navigation laid out on an arc. The links sit on a wide circle whose centre is below the stage, so only the top of the curve shows: the active link at the keystone, its neighbours leaning away and fading down the slope. Drag or swipe with inertia, scroll, or use the arrow keys, Home and End; it always settles on a link. A preview in the shape of an arch shows the active item, each new image rising from a circle at its base, and the arch leans with the speed of the turn. Side links carry a small arch of their own image, so you can see what comes next. Clicking the active link or the arch opens it, with a rising note when sound is on and a falling one on close: the arch grows into a full bleed image behind the bars, the arc drops away, the title rises in, and the logo and bar text switch to dark or light ink to stay readable on that image. Click the image, press Esc or use Close to go back. An optional sound gives each link its own note, so turning the arc plays a scale; it stays off until the toggle is pressed, and it also plays on iPhones with the silent switch on. The links stay a normal list, so tabbing through them turns the arc and screen readers read them in order. The wheel only turns the arc between the first and last link, after that the page scrolls on.
+
+**Files**
+- `orbit.html` — HTML structure
+- `orbit.css` — Styles and CSS variables
+- `orbit.js` — Animation logic
+
+**Dependencies**
+- GSAP 3.15
+- Draggable 3.15
+- InertiaPlugin 3.15
+- CustomEase 3.15
+
+**Options**
+
+| Attribute | Default | |
+| --- | --- | --- |
+| `data-arco-orbit-start` | `0` | Link active on load |
+| `data-arco-orbit-wheel` | `true` | `false` leaves the mouse wheel to the page |
+| `data-arco-orbit-thumbs` | `true` | `false` hides the small arches above the side links |
+| `data-arco-orbit-open` | `true` | `false` makes the active link follow its href instead of opening the image |
+| `data-arco-orbit-ink` | `light` | On each `.arco-orbit_image`. Set `dark` for light images, so the bars switch to dark text when it opens |
+
+The height of the arc and the size of the preview are CSS variables (`--arco-orbit-top`, `--arco-orbit-media-top`, `--arco-orbit-media-height`). Events: `arco:change`, `arco:open` and `arco:close`. In Webflow the links can be a Collection List: give the list the class `arco-orbit_list` and each item `arco-orbit_item`. The preview images can be a second Collection List inside `arco-orbit_media`, in the same order.
+
+---
+
 ## Usage
 
 1. Add the font and the component CSS inside `<head>`.
@@ -106,9 +136,10 @@ Components start on their own when the page loads. For content added later, or a
 ArcoAccordion.init(container);
 ArcoCylinderStack.init(container);
 ArcoCursorTrail.init(container);
+ArcoOrbit.init(container);
 ```
 
-Each instance is stored on its element (`el.arcoAccordion`, `el.arcoCylinderStack`, `el.arcoCursorTrail`) and has a `destroy()` method.
+Each instance is stored on its element (`el.arcoAccordion`, `el.arcoCylinderStack`, `el.arcoCursorTrail`, `el.arcoOrbit`) and has a `destroy()` method.
 
 ## Design tokens
 
@@ -125,7 +156,7 @@ All components read the same tokens from `:root`, so changing one changes the wh
 
 ## Accessibility
 
-Controls are real buttons with visible focus. Decorative layers are hidden from screen readers. Every component respects `prefers-reduced-motion`, and Cursor Trail sound stays off until the toggle is pressed.
+Controls are real buttons with visible focus. Decorative layers are hidden from screen readers. Every component respects `prefers-reduced-motion`, and Cursor Trail and Orbit sound stays off until the toggle is pressed.
 
 ## Browser support
 
