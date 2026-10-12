@@ -4,6 +4,10 @@ GSAP components for Webflow and the web, by [Emanuel Bento](https://emanuelbento
 
 Each component is a folder with three files: the HTML structure, the CSS and the JS. They share the same design tokens, type and easing, so they sit together on one page. Class names follow Finsweet Client-First, so they map straight onto a Webflow build.
 
+**[See them running live in the Lab →](https://emanuelbento.pt/lab)**
+
+![Orbit, navigation on an arc](.github/previews/orbit.gif)
+
 ## Components
 
 | Component | What it does | GSAP |
@@ -16,6 +20,10 @@ Each component is a folder with three files: the HTML structure, the CSS and the
 ---
 
 ### Accordion
+
+![Accordion](.github/previews/accordion.gif)
+
+[Live demo](https://emanuelbento.pt/lab/accordion) · [CodePen](https://codepen.io/emanuelbento/pen/ByWYrNm)
 
 Expanding panels that open on hover. Flip handles the resize, SplitText masks the title lines, and three CustomEase presets (`signature`, `smooth`, `snappy`) set the feel. Stacks vertically on phones and portrait tablets.
 
@@ -44,6 +52,10 @@ Inspired by an effect from [Made With GSAP](https://madewithgsap.com). Rebuilt f
 
 ### Cylinder Stack
 
+![Cylinder Stack](.github/previews/cylinder-stack.gif)
+
+[Live demo](https://emanuelbento.pt/lab/cylinder-stack) · [CodePen](https://codepen.io/emanuelbento/pen/JoRqopX)
+
 A pinned scroll section where cards turn on a 3D cylinder. ScrollTrigger pins the section and snaps to each card, the active card lights up while the rest fall into shadow, and the label swaps with a masked transition. Dots jump to any card. With reduced motion the cards crossfade in place.
 
 **Files**
@@ -64,6 +76,10 @@ Card labels come from `data-label` on each card. Card size and perspective are C
 
 ### Cursor Trail
 
+![Cursor Trail](.github/previews/cursor-trail.gif)
+
+[Live demo](https://emanuelbento.pt/lab/cursor-trail) · [CodePen](https://codepen.io/emanuelbento/pen/MYjdXEK)
+
 An image trail that follows the cursor. Images are spaced by distance, drift in the direction of movement and fade out, and a few keep appearing while the cursor rests. An optional ambient chord reacts to speed. Works with touch, and with reduced motion the images appear without rotation or drift.
 
 **Files**
@@ -81,6 +97,10 @@ The trail images are the `<img>` tags inside `.arco-cursor-trail_sources`, so in
 ---
 
 ### Orbit
+
+![Orbit](.github/previews/orbit.gif)
+
+[Live demo](https://emanuelbento.pt/lab/orbit) · [CodePen](https://codepen.io/emanuelbento/pen/gbmoPby)
 
 Navigation laid out on an arc. The links sit on a wide circle whose centre is below the stage, so only the top of the curve shows: the active link at the keystone, its neighbours leaning away and fading down the slope. Drag or swipe with inertia, scroll, or use the arrow keys, Home and End; it always settles on a link. A preview in the shape of an arch shows the active item, each new image rising from a circle at its base, and the arch leans with the speed of the turn. Side links carry a small arch of their own image, so you can see what comes next. Clicking the active link or the arch opens it, with a rising note when sound is on and a falling one on close: the arch grows into a full bleed image behind the bars, the arc drops away, the title rises in, and the logo and bar text switch to dark or light ink to stay readable on that image. Click the image, press Esc or use Close to go back. An optional sound gives each link its own note, so turning the arc plays a scale; it stays off until the toggle is pressed, and it also plays on iPhones with the silent switch on. The links stay a normal list, so tabbing through them turns the arc and screen readers read them in order. The wheel only turns the arc between the first and last link, after that the page scrolls on.
 
@@ -119,13 +139,13 @@ The height of the arc and the size of the preview are CSS variables (`--arco-orb
 Every HTML file starts with a comment listing exactly what to add. With jsDelivr, for example:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@1.0.0/components/accordion/accordion.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@1.1.0/components/accordion/accordion.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Flip.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@1.0.0/components/accordion/accordion.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@1.1.0/components/accordion/accordion.min.js"></script>
 ```
 
 jsDelivr minifies `.min.js` and `.min.css` on request. Pin a version tag in production; branch URLs like `@main` are cached for days.
