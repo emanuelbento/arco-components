@@ -19,6 +19,8 @@ Each component is a folder with three files: the HTML structure, the CSS and the
 
 Expanding panels that open on hover. Flip handles the resize, SplitText masks the title lines, and three CustomEase presets (`signature`, `smooth`, `snappy`) set the feel. Stacks vertically on phones and portrait tablets.
 
+Inspired by an effect from [Made With GSAP](https://madewithgsap.com). Rebuilt from scratch.
+
 **Files**
 - `accordion.html` — HTML structure
 - `accordion.css` — Styles and CSS variables
