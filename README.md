@@ -30,9 +30,9 @@ Expanding panels that open on hover. Flip handles the resize, SplitText masks th
 Inspired by an effect from [Made With GSAP](https://madewithgsap.com). Rebuilt from scratch.
 
 **Files**
-- `accordion.html` — HTML structure
-- `accordion.css` — Styles and CSS variables
-- `accordion.js` — Animation logic
+- `accordion.html`: HTML structure
+- `accordion.css`: Styles and CSS variables
+- `accordion.js`: Animation logic
 
 **Dependencies**
 - GSAP 3.15
@@ -59,9 +59,9 @@ Inspired by an effect from [Made With GSAP](https://madewithgsap.com). Rebuilt f
 A pinned scroll section where cards turn on a 3D cylinder. ScrollTrigger pins the section and snaps to each card, the active card lights up while the rest fall into shadow, and the label swaps with a masked transition. Dots jump to any card. With reduced motion the cards crossfade in place.
 
 **Files**
-- `cylinder-stack.html` — HTML structure
-- `cylinder-stack.css` — Styles and CSS variables
-- `cylinder-stack.js` — Animation logic
+- `cylinder-stack.html`: HTML structure
+- `cylinder-stack.css`: Styles and CSS variables
+- `cylinder-stack.js`: Animation logic
 
 **Dependencies**
 - GSAP 3.15
@@ -83,9 +83,9 @@ Card labels come from `data-label` on each card. Card size and perspective are C
 An image trail that follows the cursor. Images are spaced by distance, drift in the direction of movement and fade out, and a few keep appearing while the cursor rests. An optional ambient chord reacts to speed. Works with touch, and with reduced motion the images appear without rotation or drift.
 
 **Files**
-- `cursor-trail.html` — HTML structure
-- `cursor-trail.css` — Styles and CSS variables
-- `cursor-trail.js` — Animation and sound
+- `cursor-trail.html`: HTML structure
+- `cursor-trail.css`: Styles and CSS variables
+- `cursor-trail.js`: Animation and sound
 
 **Dependencies**
 - GSAP 3.15
@@ -102,12 +102,18 @@ The trail images are the `<img>` tags inside `.arco-cursor-trail_sources`, so in
 
 [Live demo](https://emanuelbento.pt/lab/orbit) · [CodePen](https://codepen.io/emanuelbento/pen/gbmoPby)
 
-Navigation laid out on an arc. The links sit on a wide circle whose centre is below the stage, so only the top of the curve shows: the active link at the keystone, its neighbours leaning away and fading down the slope. Drag or swipe with inertia, scroll, or use the arrow keys, Home and End; it always settles on a link. A preview in the shape of an arch shows the active item, each new image rising from a circle at its base, and the arch leans with the speed of the turn. Side links carry a small arch of their own image, so you can see what comes next. Clicking the active link or the arch opens it, with a rising note when sound is on and a falling one on close: the arch grows into a full bleed image behind the bars, the arc drops away, the title rises in, and the logo and bar text switch to dark or light ink to stay readable on that image. Click the image, press Esc or use Close to go back. An optional sound gives each link its own note, so turning the arc plays a scale; it stays off until the toggle is pressed, and it also plays on iPhones with the silent switch on. The links stay a normal list, so tabbing through them turns the arc and screen readers read them in order. The wheel only turns the arc between the first and last link, after that the page scrolls on.
+Navigation laid out on an arc. The links sit on a wide circle whose centre is below the stage, so only the top of the curve shows: the active link at the keystone, its neighbours leaning away down the slope.
+
+- **Turn.** Drag with inertia, scroll or use the arrow keys, Home and End. It always settles on a link, and the wheel hands back to the page at either end.
+- **Preview.** An arch shows the active item, each new image rising from its base, and leans with the speed of the turn. Side links carry a small arch of their own image.
+- **Open.** Click the active link or the arch and it grows into a full bleed image, the arc drops away and the bar text switches ink to stay readable. Esc, Close or a click on the image goes back.
+- **Sound.** Optional, off until the toggle is pressed. Each link has its own note, so turning the arc plays a scale. Also plays on iPhones in silent mode.
+- **Accessible.** The links stay a normal list: tabbing turns the arc and screen readers read them in order.
 
 **Files**
-- `orbit.html` — HTML structure
-- `orbit.css` — Styles and CSS variables
-- `orbit.js` — Animation logic
+- `orbit.html`: HTML structure
+- `orbit.css`: Styles and CSS variables
+- `orbit.js`: Animation logic
 
 **Dependencies**
 - GSAP 3.15

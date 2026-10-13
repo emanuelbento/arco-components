@@ -1,6 +1,6 @@
 /* ================================
-   Arco — Cursor Trail
-   arco.studio
+   Arco · Cursor Trail
+   github.com/emanuelbento/arco-components
    ================================ */
 
 (() => {
