@@ -1,6 +1,6 @@
 /* ================================
-   Arco — Cylinder Stack
-   arco.studio
+   Arco · Cylinder Stack
+   github.com/emanuelbento/arco-components
    ================================ */
 
 (() => {
