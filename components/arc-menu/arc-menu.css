@@ -1,5 +1,5 @@
 /* ================================
-   Arco · Orbit
+   Arco · Arc Menu
    github.com/emanuelbento/arco-components
    ================================ */
 
@@ -13,10 +13,10 @@
   --arco-stage-pad: 1.25rem;
   --arco-bar-height: 3.5rem;
 
-  --arco-orbit-top: 78%;
-  --arco-orbit-media-top: 7%;
-  --arco-orbit-media-height: 63%;
-  --arco-orbit-media-radius: 0.875rem;
+  --arco-arc-menu-top: 78%;
+  --arco-arc-menu-media-top: 7%;
+  --arco-arc-menu-media-height: 63%;
+  --arco-arc-menu-media-radius: 0.875rem;
 
   color-scheme: dark;
 }
@@ -26,10 +26,10 @@
     --arco-stage-pad: 0.75rem;
     --arco-bar-height: 3rem;
 
-    --arco-orbit-top: 74%;
-    --arco-orbit-media-top: 8%;
-    --arco-orbit-media-height: 54%;
-    --arco-orbit-media-radius: 0.625rem;
+    --arco-arc-menu-top: 74%;
+    --arco-arc-menu-media-top: 8%;
+    --arco-arc-menu-media-height: 54%;
+    --arco-arc-menu-media-radius: 0.625rem;
   }
 }
 
@@ -50,12 +50,12 @@ body {
 
 /* Stage */
 
-.section_arco-orbit {
+.section_arco-arc-menu {
   /* Text on the bars follows these, the open view flips them for light images */
-  --arco-orbit-ink: var(--arco-ink-invert);
-  --arco-orbit-ink-muted: var(--arco-ink-muted);
-  --arco-orbit-line: rgb(242 240 237 / 0.18);
-  --arco-orbit-line-strong: rgb(242 240 237 / 0.45);
+  --arco-arc-menu-ink: var(--arco-ink-invert);
+  --arco-arc-menu-ink-muted: var(--arco-ink-muted);
+  --arco-arc-menu-line: rgb(242 240 237 / 0.18);
+  --arco-arc-menu-line-strong: rgb(242 240 237 / 0.45);
 
   position: relative;
   display: grid;
@@ -67,17 +67,17 @@ body {
   background-color: var(--arco-stage);
 }
 
-.section_arco-orbit.is-ink-dark {
-  --arco-orbit-ink: #0d0d0d;
-  --arco-orbit-ink-muted: rgb(13 13 13 / 0.62);
-  --arco-orbit-line: rgb(13 13 13 / 0.22);
-  --arco-orbit-line-strong: rgb(13 13 13 / 0.5);
+.section_arco-arc-menu.is-ink-dark {
+  --arco-arc-menu-ink: #0d0d0d;
+  --arco-arc-menu-ink-muted: rgb(13 13 13 / 0.62);
+  --arco-arc-menu-line: rgb(13 13 13 / 0.22);
+  --arco-arc-menu-line-strong: rgb(13 13 13 / 0.5);
 }
 
-.arco-orbit_bar {
+.arco-arc-menu_bar {
   position: relative;
   z-index: 3;
-  color: var(--arco-orbit-ink);
+  color: var(--arco-arc-menu-ink);
   transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   display: flex;
   align-items: center;
@@ -88,60 +88,60 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-.arco-orbit_logo {
+.arco-arc-menu_logo {
   display: flex;
-  color: var(--arco-orbit-ink);
+  color: var(--arco-arc-menu-ink);
   transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.arco-orbit_logo svg {
+.arco-arc-menu_logo svg {
   display: block;
   width: 4.25rem;
   height: auto;
 }
 
-.arco-orbit_bar-muted {
-  color: var(--arco-orbit-ink-muted);
+.arco-arc-menu_bar-muted {
+  color: var(--arco-arc-menu-ink-muted);
   transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.arco-orbit_hint-touch,
-.arco-orbit_hint-open,
-.arco-orbit_hint-open-touch {
+.arco-arc-menu_hint-touch,
+.arco-arc-menu_hint-open,
+.arco-arc-menu_hint-open-touch {
   display: none;
 }
 
 @media (hover: none) {
-  .arco-orbit_hint-pointer {
+  .arco-arc-menu_hint-pointer {
     display: none;
   }
 
-  .arco-orbit_hint-touch {
+  .arco-arc-menu_hint-touch {
     display: inline;
   }
 }
 
-.is-open .arco-orbit_hint-pointer,
-.is-open .arco-orbit_hint-touch {
+.is-open .arco-arc-menu_hint-pointer,
+.is-open .arco-arc-menu_hint-touch {
   display: none;
 }
 
-.is-open .arco-orbit_hint-open {
+.is-open .arco-arc-menu_hint-open {
   display: inline;
 }
 
 /* Touch screens have no Esc key */
 @media (hover: none) {
-  .is-open .arco-orbit_hint-open {
+  .is-open .arco-arc-menu_hint-open {
     display: none;
   }
 
-  .is-open .arco-orbit_hint-open-touch {
+  .is-open .arco-arc-menu_hint-open-touch {
     display: inline;
   }
 }
 
-.arco-orbit_bar-group {
+.arco-arc-menu_bar-group {
   flex: none;
   display: flex;
   white-space: nowrap;
@@ -151,21 +151,21 @@ body {
 
 /* Sound toggle */
 
-.arco-orbit_sound {
+.arco-arc-menu_sound {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.375rem 0.75rem;
-  border: 1px solid var(--arco-orbit-line);
+  border: 1px solid var(--arco-arc-menu-line);
   border-radius: 999px;
   background: transparent;
-  color: var(--arco-orbit-ink-muted);
+  color: var(--arco-arc-menu-ink-muted);
   font: inherit;
   cursor: pointer;
   transition: color 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.arco-orbit_sound::before {
+.arco-arc-menu_sound::before {
   content: "";
   width: 0.375rem;
   aspect-ratio: 1;
@@ -174,33 +174,33 @@ body {
   opacity: 0.4;
 }
 
-.arco-orbit_sound:hover,
-.arco-orbit_sound[aria-pressed="true"] {
-  border-color: var(--arco-orbit-line-strong);
-  color: var(--arco-orbit-ink);
+.arco-arc-menu_sound:hover,
+.arco-arc-menu_sound[aria-pressed="true"] {
+  border-color: var(--arco-arc-menu-line-strong);
+  color: var(--arco-arc-menu-ink);
 }
 
-.arco-orbit_sound[aria-pressed="true"]::before {
+.arco-arc-menu_sound[aria-pressed="true"]::before {
   opacity: 1;
 }
 
-.arco-orbit_sound:focus-visible {
-  outline: 2px solid var(--arco-orbit-ink);
+.arco-arc-menu_sound:focus-visible {
+  outline: 2px solid var(--arco-arc-menu-ink);
   outline-offset: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .arco-orbit_bar,
-  .arco-orbit_logo,
-  .arco-orbit_bar-muted,
-  .arco-orbit_sound {
+  .arco-arc-menu_bar,
+  .arco-arc-menu_logo,
+  .arco-arc-menu_bar-muted,
+  .arco-arc-menu_sound {
     transition: none;
   }
 }
 
 /* Component: full bleed, the arc runs past both edges */
 
-.arco-orbit_component {
+.arco-arc-menu_component {
   position: relative;
   min-height: 0;
   margin-inline: calc(var(--arco-stage-pad) * -1);
@@ -212,21 +212,21 @@ body {
   cursor: grab;
 }
 
-.arco-orbit_component.is-dragging {
+.arco-arc-menu_component.is-dragging {
   cursor: grabbing;
 }
 
 /* Preview: an arch, the radius is half the width (set by JS) */
 
-.arco-orbit_media {
+.arco-arc-menu_media {
   position: absolute;
-  top: var(--arco-orbit-media-top);
+  top: var(--arco-arc-menu-media-top);
   left: 50%;
   z-index: 1;
-  height: var(--arco-orbit-media-height);
+  height: var(--arco-arc-menu-media-height);
   aspect-ratio: 4 / 5;
   translate: -50% 0;
-  border-radius: var(--arco-orbit-arch, 50vw) var(--arco-orbit-arch, 50vw) var(--arco-orbit-media-radius) var(--arco-orbit-media-radius);
+  border-radius: var(--arco-arc-menu-arch, 50vw) var(--arco-arc-menu-arch, 50vw) var(--arco-arc-menu-media-radius) var(--arco-arc-menu-media-radius);
   overflow: hidden;
   isolation: isolate;
   background-color: #141316;
@@ -234,7 +234,7 @@ body {
   cursor: pointer;
 }
 
-.arco-orbit_image {
+.arco-arc-menu_image {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -246,9 +246,9 @@ body {
 /* Arc: the list is a zero-size wheel whose centre sits below the stage.
    Each item is an arm rotated by JS, its link hangs at the radius. */
 
-.arco-orbit_list {
+.arco-arc-menu_list {
   position: absolute;
-  top: calc(var(--arco-orbit-top) + var(--arco-orbit-radius, 100vw));
+  top: calc(var(--arco-arc-menu-top) + var(--arco-arc-menu-radius, 100vw));
   left: 50%;
   z-index: 2;
   width: 0;
@@ -258,7 +258,7 @@ body {
   list-style: none;
 }
 
-.arco-orbit_item {
+.arco-arc-menu_item {
   position: absolute;
   top: 0;
   left: 0;
@@ -266,9 +266,9 @@ body {
   height: 0;
 }
 
-.arco-orbit_link {
+.arco-arc-menu_link {
   position: absolute;
-  bottom: var(--arco-orbit-radius, 100vw);
+  bottom: var(--arco-arc-menu-radius, 100vw);
   left: 0;
   display: inline-flex;
   align-items: flex-start;
@@ -286,7 +286,7 @@ body {
 
 /* Small arch above each side link, faded out on the active one */
 
-.arco-orbit_thumb {
+.arco-arc-menu_thumb {
   position: absolute;
   bottom: calc(100% + 0.2em);
   left: 50%;
@@ -300,14 +300,14 @@ body {
   pointer-events: none;
 }
 
-.arco-orbit_thumb img {
+.arco-arc-menu_thumb img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.arco-orbit_number {
+.arco-arc-menu_number {
   margin-top: 0.4rem;
   color: var(--arco-ink-muted);
   font-size: 0.75rem;
@@ -316,7 +316,7 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-.arco-orbit_link:focus-visible {
+.arco-arc-menu_link:focus-visible {
   outline: 2px solid var(--arco-ink-invert);
   outline-offset: 0.5rem;
   border-radius: 0.25rem;
@@ -324,7 +324,7 @@ body {
 
 /* Before JS runs (and in the Webflow canvas) the links sit in a row */
 
-.arco-orbit_component:not(.is-ready) .arco-orbit_list {
+.arco-arc-menu_component:not(.is-ready) .arco-arc-menu_list {
   top: auto;
   right: var(--arco-stage-pad);
   bottom: 8%;
@@ -337,26 +337,26 @@ body {
   height: auto;
 }
 
-.arco-orbit_component:not(.is-ready) .arco-orbit_item,
-.arco-orbit_component:not(.is-ready) .arco-orbit_link {
+.arco-arc-menu_component:not(.is-ready) .arco-arc-menu_item,
+.arco-arc-menu_component:not(.is-ready) .arco-arc-menu_link {
   position: static;
   width: auto;
   height: auto;
   translate: none;
 }
 
-.arco-orbit_component:not(.is-ready) .arco-orbit_link {
+.arco-arc-menu_component:not(.is-ready) .arco-arc-menu_link {
   font-size: 1.5rem;
 }
 
-.arco-orbit_component:not(.is-ready) .arco-orbit_image:not(:first-child) {
+.arco-arc-menu_component:not(.is-ready) .arco-arc-menu_image:not(:first-child) {
   opacity: 0;
 }
 
 /* Open view, built by JS. Starts on the arch and grows to the whole section,
    behind the bars, which switch ink to stay readable. */
 
-.arco-orbit_full {
+.arco-arc-menu_full {
   position: absolute;
   top: 0;
   left: 0;
@@ -367,7 +367,7 @@ body {
   cursor: zoom-out;
 }
 
-.arco-orbit_full-image {
+.arco-arc-menu_full-image {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -376,7 +376,7 @@ body {
 }
 
 /* Soft scrims at top and bottom, light or dark to match the ink */
-.arco-orbit_full::after {
+.arco-arc-menu_full::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -386,13 +386,13 @@ body {
   pointer-events: none;
 }
 
-.is-ink-dark .arco-orbit_full::after {
+.is-ink-dark .arco-arc-menu_full::after {
   background:
     linear-gradient(to bottom, rgb(255 255 255 / 0.22), transparent 18%),
     linear-gradient(to top, rgb(255 255 255 / 0.5), transparent 42%);
 }
 
-.arco-orbit_full-content {
+.arco-arc-menu_full-content {
   position: absolute;
   right: var(--arco-stage-pad);
   bottom: calc(var(--arco-bar-height) + var(--arco-stage-pad));
@@ -402,10 +402,10 @@ body {
   align-items: flex-end;
   justify-content: space-between;
   gap: 1.5rem;
-  color: var(--arco-orbit-ink);
+  color: var(--arco-arc-menu-ink);
 }
 
-.arco-orbit_full-title {
+.arco-arc-menu_full-title {
   margin: 0;
   padding-bottom: 0.08em;
   overflow: clip;
@@ -415,24 +415,24 @@ body {
   letter-spacing: -0.055em;
 }
 
-.arco-orbit_full-title-text {
+.arco-arc-menu_full-title-text {
   display: block;
 }
 
-.arco-orbit_close {
+.arco-arc-menu_close {
   flex: none;
   padding: 0.5rem 1rem;
-  border: 1px solid var(--arco-orbit-line-strong);
+  border: 1px solid var(--arco-arc-menu-line-strong);
   border-radius: 999px;
   background: transparent;
-  color: var(--arco-orbit-ink);
+  color: var(--arco-arc-menu-ink);
   font: inherit;
   font-size: 0.75rem;
   letter-spacing: 0.01em;
   cursor: pointer;
 }
 
-.arco-orbit_close:focus-visible {
-  outline: 2px solid var(--arco-orbit-ink);
+.arco-arc-menu_close:focus-visible {
+  outline: 2px solid var(--arco-arc-menu-ink);
   outline-offset: 3px;
 }

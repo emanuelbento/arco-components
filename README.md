@@ -6,7 +6,7 @@ Each component is a folder with three files: the HTML structure, the CSS and the
 
 **[See them running live in the Lab →](https://emanuelbento.pt/lab)**
 
-![Orbit, navigation on an arc](.github/previews/orbit.gif)
+![Arc Menu, navigation on an arc](.github/previews/arc-menu.gif)
 
 ## Components
 
@@ -15,7 +15,7 @@ Each component is a folder with three files: the HTML structure, the CSS and the
 | [Accordion](#accordion) | Panels that expand on hover | Flip, SplitText, CustomEase |
 | [Cylinder Stack](#cylinder-stack) | Cards turning on a 3D cylinder as you scroll | ScrollTrigger, CustomEase |
 | [Cursor Trail](#cursor-trail) | An image trail that follows the cursor | Core |
-| [Orbit](#orbit) | Navigation laid out on an arc you drag, scroll or tab through | Draggable, InertiaPlugin, CustomEase |
+| [Arc Menu](#arc-menu) | Navigation laid out on an arc you drag, scroll or tab through | Draggable, InertiaPlugin, CustomEase |
 
 ---
 
@@ -96,11 +96,11 @@ The trail images are the `<img>` tags inside `.arco-cursor-trail_sources`, so in
 
 ---
 
-### Orbit
+### Arc Menu
 
-![Orbit](.github/previews/orbit.gif)
+![Arc Menu](.github/previews/arc-menu.gif)
 
-[Live demo](https://emanuelbento.pt/lab/orbit) · [CodePen](https://codepen.io/emanuelbento/pen/gbmoPby)
+[Live demo](https://emanuelbento.pt/lab/arc-menu) · [CodePen](https://codepen.io/emanuelbento/pen/gbmoPby)
 
 Navigation laid out on an arc. The links sit on a wide circle whose centre is below the stage, so only the top of the curve shows: the active link at the keystone, its neighbours leaning away down the slope.
 
@@ -111,9 +111,9 @@ Navigation laid out on an arc. The links sit on a wide circle whose centre is be
 - **Accessible.** The links stay a normal list: tabbing turns the arc and screen readers read them in order.
 
 **Files**
-- `orbit.html`: HTML structure
-- `orbit.css`: Styles and CSS variables
-- `orbit.js`: Animation logic
+- `arc-menu.html`: HTML structure
+- `arc-menu.css`: Styles and CSS variables
+- `arc-menu.js`: Animation logic
 
 **Dependencies**
 - GSAP 3.15
@@ -125,13 +125,13 @@ Navigation laid out on an arc. The links sit on a wide circle whose centre is be
 
 | Attribute | Default | |
 | --- | --- | --- |
-| `data-arco-orbit-start` | `0` | Link active on load |
-| `data-arco-orbit-wheel` | `true` | `false` leaves the mouse wheel to the page |
-| `data-arco-orbit-thumbs` | `true` | `false` hides the small arches above the side links |
-| `data-arco-orbit-open` | `true` | `false` makes the active link follow its href instead of opening the image |
-| `data-arco-orbit-ink` | `light` | On each `.arco-orbit_image`. Set `dark` for light images, so the bars switch to dark text when it opens |
+| `data-arco-arc-menu-start` | `0` | Link active on load |
+| `data-arco-arc-menu-wheel` | `true` | `false` leaves the mouse wheel to the page |
+| `data-arco-arc-menu-thumbs` | `true` | `false` hides the small arches above the side links |
+| `data-arco-arc-menu-open` | `true` | `false` makes the active link follow its href instead of opening the image |
+| `data-arco-arc-menu-ink` | `light` | On each `.arco-arc-menu_image`. Set `dark` for light images, so the bars switch to dark text when it opens |
 
-The height of the arc and the size of the preview are CSS variables (`--arco-orbit-top`, `--arco-orbit-media-top`, `--arco-orbit-media-height`). Events: `arco:change`, `arco:open` and `arco:close`. In Webflow the links can be a Collection List: give the list the class `arco-orbit_list` and each item `arco-orbit_item`. The preview images can be a second Collection List inside `arco-orbit_media`, in the same order.
+The height of the arc and the size of the preview are CSS variables (`--arco-arc-menu-top`, `--arco-arc-menu-media-top`, `--arco-arc-menu-media-height`). Events: `arco:change`, `arco:open` and `arco:close`. In Webflow the links can be a Collection List: give the list the class `arco-arc-menu_list` and each item `arco-arc-menu_item`. The preview images can be a second Collection List inside `arco-arc-menu_media`, in the same order.
 
 ---
 
@@ -145,13 +145,13 @@ The height of the arc and the size of the preview are CSS variables (`--arco-orb
 Every HTML file starts with a comment listing exactly what to add. With jsDelivr, for example:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@1.1.1/components/accordion/accordion.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@2.0.0/components/accordion/accordion.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Flip.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@1.1.1/components/accordion/accordion.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@2.0.0/components/accordion/accordion.min.js"></script>
 ```
 
 jsDelivr minifies `.min.js` and `.min.css` on request. Pin a version tag in production; branch URLs like `@main` are cached for days.
@@ -171,10 +171,10 @@ Components start on their own when the page loads. For content added later, or a
 ArcoAccordion.init(container);
 ArcoCylinderStack.init(container);
 ArcoCursorTrail.init(container);
-ArcoOrbit.init(container);
+ArcoArcMenu.init(container);
 ```
 
-Each instance is stored on its element (`el.arcoAccordion`, `el.arcoCylinderStack`, `el.arcoCursorTrail`, `el.arcoOrbit`) and has a `destroy()` method.
+Each instance is stored on its element (`el.arcoAccordion`, `el.arcoCylinderStack`, `el.arcoCursorTrail`, `el.arcoArcMenu`) and has a `destroy()` method.
 
 ## Design tokens
 
@@ -191,7 +191,7 @@ All components read the same tokens from `:root`, so changing one changes the wh
 
 ## Accessibility
 
-Controls are real buttons with visible focus. Decorative layers are hidden from screen readers. Every component respects `prefers-reduced-motion`, and Cursor Trail and Orbit sound stays off until the toggle is pressed.
+Controls are real buttons with visible focus. Decorative layers are hidden from screen readers. Every component respects `prefers-reduced-motion`, and Cursor Trail and Arc Menu sound stays off until the toggle is pressed.
 
 ## Browser support
 
