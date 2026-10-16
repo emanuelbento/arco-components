@@ -106,7 +106,8 @@ body {
 }
 
 .arco-orbit_hint-touch,
-.arco-orbit_hint-open {
+.arco-orbit_hint-open,
+.arco-orbit_hint-open-touch {
   display: none;
 }
 
@@ -127,6 +128,17 @@ body {
 
 .is-open .arco-orbit_hint-open {
   display: inline;
+}
+
+/* Touch screens have no Esc key */
+@media (hover: none) {
+  .is-open .arco-orbit_hint-open {
+    display: none;
+  }
+
+  .is-open .arco-orbit_hint-open-touch {
+    display: inline;
+  }
 }
 
 .arco-orbit_bar-group {
