@@ -5,6 +5,7 @@
 ### Changed
 - README: animated previews, live demo and CodePen links for every component, Accordion credit to Made With GSAP.
 - File headers point to the repository instead of arco.studio.
+- README: step by step for adding a component to a Webflow site.
 
 ## 1.1.0 (2026-10-12)
 

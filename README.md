@@ -156,6 +156,13 @@ Every HTML file starts with a comment listing exactly what to add. With jsDelivr
 
 jsDelivr minifies `.min.js` and `.min.css` on request. Pin a version tag in production; branch URLs like `@main` are cached for days.
 
+### In Webflow
+
+1. **CSS:** Page settings > Custom code > *Inside `<head>` tag*. Use Site settings instead if the component appears on more than one page.
+2. **HTML:** rebuild the structure in the Navigator with the same Client-First classes, so the component stays editable in the Designer and the CMS can drive the content. An Embed element works for a quick test.
+3. **JS:** Page settings > Custom code > *Before `</body>` tag*, after GSAP and its plugins. If the site already loads GSAP through Webflow, skip those script tags so it is never loaded twice.
+4. Custom code does not run on the Designer canvas. Check the result in Preview or on the staging domain.
+
 ### Initialising
 
 Components start on their own when the page loads. For content added later, or after a page transition (Barba, Swup), call `init` on the new container:
