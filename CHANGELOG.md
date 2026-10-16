@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.0 (2026-10-16)
+
+### Changed
+- Orbit is now Arc Menu, so the name says what it does and stays clear of a future orbit animation. Folder `components/arc-menu/`, classes `arco-arc-menu_*`, hook `data-arco-arc-menu`, options `data-arco-arc-menu-*`, CSS variables `--arco-arc-menu-*`, global `window.ArcoArcMenu`, instance `el.arcoArcMenu`. Behaviour and events are unchanged.
+
+### Migrating from 1.x
+- Replace `orbit` with `arc-menu` in the file paths and `arco-orbit` with `arco-arc-menu` in class names, attributes and CSS variables. Links pinned to `@1.1.1` keep working.
+
 ## 1.1.1 (2026-10-16)
 
 ### Fixed

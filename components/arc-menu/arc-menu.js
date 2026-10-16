@@ -1,5 +1,5 @@
 /* ================================
-   Arco · Orbit
+   Arco · Arc Menu
    github.com/emanuelbento/arco-components
    ================================ */
 
@@ -29,31 +29,31 @@
   const SILENCE =
     "data:audio/wav;base64,UklGRnQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YVAAAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==";
 
-  class ArcoOrbit {
+  class ArcoArcMenu {
     constructor(el) {
       this.el = el;
       const q = gsap.utils.selector(el);
 
-      this.list = q(".arco-orbit_list")[0];
-      this.items = q(".arco-orbit_item");
+      this.list = q(".arco-arc-menu_list")[0];
+      this.items = q(".arco-arc-menu_item");
       if (!this.list || this.items.length < 2) return;
 
-      this.links = this.items.map((item) => item.querySelector(".arco-orbit_link"));
-      this.texts = this.items.map((item) => item.querySelector(".arco-orbit_text") ?? item.querySelector(".arco-orbit_link"));
-      this.numbers = this.items.map((item) => item.querySelector(".arco-orbit_number"));
-      this.media = q(".arco-orbit_media")[0];
-      this.images = q(".arco-orbit_image");
+      this.links = this.items.map((item) => item.querySelector(".arco-arc-menu_link"));
+      this.texts = this.items.map((item) => item.querySelector(".arco-arc-menu_text") ?? item.querySelector(".arco-arc-menu_link"));
+      this.numbers = this.items.map((item) => item.querySelector(".arco-arc-menu_number"));
+      this.media = q(".arco-arc-menu_media")[0];
+      this.images = q(".arco-arc-menu_image");
 
       const section = el.closest("section") ?? el;
       this.section = section;
-      this.counter = section.querySelector(".arco-orbit_counter");
-      this.soundButton = section.querySelector(".arco-orbit_sound");
+      this.counter = section.querySelector(".arco-arc-menu_counter");
+      this.soundButton = section.querySelector(".arco-arc-menu_sound");
       this.sound = { ctx: null, gain: null, enabled: false, last: 0 };
 
       this.count = this.items.length;
       this.last = this.count - 1;
-      this.useWheel = el.dataset.arcoOrbitWheel !== "false";
-      this.canOpen = el.dataset.arcoOrbitOpen !== "false" && this.media && this.images.length > 0;
+      this.useWheel = el.dataset.arcoArcMenuWheel !== "false";
+      this.canOpen = el.dataset.arcoArcMenuOpen !== "false" && this.media && this.images.length > 0;
       this.isOpen = false;
       this.reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
       this.abort = new AbortController();
@@ -72,7 +72,7 @@
       this.tick = this.tick.bind(this);
 
       this.setRotation = gsap.quickSetter(this.list, "rotation", "deg");
-      this.thumbs = el.dataset.arcoOrbitThumbs === "false" ? [] : this.createThumbs();
+      this.thumbs = el.dataset.arcoArcMenuThumbs === "false" ? [] : this.createThumbs();
       if (this.canOpen) this.createFull();
 
       this.setLink = this.links.map((link) => gsap.quickSetter(link, "css"));
@@ -98,7 +98,7 @@
       gsap.set(this.links, { xPercent: -50 });
       gsap.set(this.images, { autoAlpha: 0 });
       this.measure();
-      gsap.set(this.proxy, { x: -clamp(0, this.last, Number(el.dataset.arcoOrbitStart ?? 0)) * this.spacing });
+      gsap.set(this.proxy, { x: -clamp(0, this.last, Number(el.dataset.arcoArcMenuStart ?? 0)) * this.spacing });
 
       this.createDraggable();
       InertiaPlugin.track(this.proxy, "x");
@@ -107,7 +107,7 @@
       this.render();
 
       el.classList.add("is-ready");
-      el.arcoOrbit = this;
+      el.arcoArcMenu = this;
       this.emit("init");
     }
 
@@ -118,7 +118,7 @@
         if (!source) return null;
 
         const thumb = document.createElement("span");
-        thumb.className = "arco-orbit_thumb";
+        thumb.className = "arco-arc-menu_thumb";
         thumb.setAttribute("aria-hidden", "true");
 
         const img = document.createElement("img");
@@ -136,26 +136,26 @@
     // The open view: the arch grows into a full bleed image behind the bars
     createFull() {
       const full = document.createElement("div");
-      full.className = "arco-orbit_full";
+      full.className = "arco-arc-menu_full";
       full.setAttribute("aria-hidden", "true");
 
       const image = document.createElement("img");
-      image.className = "arco-orbit_full-image";
+      image.className = "arco-arc-menu_full-image";
       image.alt = "";
       image.draggable = false;
 
       const content = document.createElement("div");
-      content.className = "arco-orbit_full-content";
+      content.className = "arco-arc-menu_full-content";
 
       const title = document.createElement("h2");
-      title.className = "arco-orbit_full-title";
+      title.className = "arco-arc-menu_full-title";
       const titleText = document.createElement("span");
-      titleText.className = "arco-orbit_full-title-text";
+      titleText.className = "arco-arc-menu_full-title-text";
       title.append(titleText);
 
       const close = document.createElement("button");
       close.type = "button";
-      close.className = "arco-orbit_close";
+      close.className = "arco-arc-menu_close";
       close.textContent = "Close";
 
       content.append(title, close);
@@ -190,7 +190,7 @@
 
       const source = this.images[this.index];
       const { el, image, title, close } = this.full;
-      const dark = source.dataset.arcoOrbitInk === "dark";
+      const dark = source.dataset.arcoArcMenuInk === "dark";
       const quick = this.reduced.matches;
 
       this.isOpen = true;
@@ -279,8 +279,8 @@
       this.step = (this.spacing / this.radius) * (180 / Math.PI);
       this.minX = -this.last * this.spacing;
 
-      this.el.style.setProperty("--arco-orbit-radius", `${this.radius}px`);
-      this.media?.style.setProperty("--arco-orbit-arch", `${this.media.offsetWidth / 2}px`);
+      this.el.style.setProperty("--arco-arc-menu-radius", `${this.radius}px`);
+      this.media?.style.setProperty("--arco-arc-menu-arch", `${this.media.offsetWidth / 2}px`);
       this.items.forEach((item, i) => gsap.set(item, { rotation: i * this.step }));
 
       if (position !== null) gsap.set(this.proxy, { x: -position * this.spacing });
@@ -613,19 +613,19 @@
         clearProps: "all",
       });
       this.el.classList.remove("is-ready", "is-dragging");
-      delete this.el.arcoOrbit;
+      delete this.el.arcoArcMenu;
     }
 
     static init(scope = document) {
-      return gsap.utils.toArray("[data-arco-orbit]", scope).map((el) => el.arcoOrbit ?? new ArcoOrbit(el));
+      return gsap.utils.toArray("[data-arco-arc-menu]", scope).map((el) => el.arcoArcMenu ?? new ArcoArcMenu(el));
     }
   }
 
-  window.ArcoOrbit = ArcoOrbit;
+  window.ArcoArcMenu = ArcoArcMenu;
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => ArcoOrbit.init());
+    document.addEventListener("DOMContentLoaded", () => ArcoArcMenu.init());
   } else {
-    ArcoOrbit.init();
+    ArcoArcMenu.init();
   }
 })();
