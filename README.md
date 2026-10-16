@@ -145,13 +145,13 @@ The height of the arc and the size of the preview are CSS variables (`--arco-orb
 Every HTML file starts with a comment listing exactly what to add. With jsDelivr, for example:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@1.1.0/components/accordion/accordion.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@1.1.1/components/accordion/accordion.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Flip.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@1.1.0/components/accordion/accordion.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@1.1.1/components/accordion/accordion.min.js"></script>
 ```
 
 jsDelivr minifies `.min.js` and `.min.css` on request. Pin a version tag in production; branch URLs like `@main` are cached for days.
