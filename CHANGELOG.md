@@ -1,8 +1,12 @@
 # Changelog
 
-## Unreleased
+## 1.1.1 (2026-10-16)
+
+### Fixed
+- Orbit: on touch screens the open view hint reads "Tap to close" instead of mentioning the Esc key.
 
 ### Changed
+- Orbit: the sixth Arco Study is now Halo, so the component and its content no longer share a name.
 - README: animated previews, live demo and CodePen links for every component, Accordion credit to Made With GSAP.
 - File headers point to the repository instead of arco.studio.
 - README: step by step for adding a component to a Webflow site.
