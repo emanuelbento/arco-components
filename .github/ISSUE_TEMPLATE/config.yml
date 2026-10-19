@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Live demos
+    url: https://emanuelbento.pt/lab
+    about: See every component running before opening an issue.
