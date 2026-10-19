@@ -100,7 +100,7 @@ The trail images are the `<img>` tags inside `.arco-cursor-trail_sources`, so in
 
 ![Arc Menu](.github/previews/arc-menu.gif)
 
-[Live demo](https://emanuelbento.pt/lab/arc-menu) · [CodePen](https://codepen.io/emanuelbento/pen/gbmoPby)
+[Live demo](https://emanuelbento.pt/lab/arc-menu) · [CodePen](https://codepen.io/emanuelbento/pen/gbmoPby) · [Webflow cloneable](https://webflow.com/made-in-webflow/website/arco-arc-menu)
 
 Navigation laid out on an arc. The links sit on a wide circle whose centre is below the stage, so only the top of the curve shows: the active link at the keystone, its neighbours leaning away down the slope.
 
