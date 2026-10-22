@@ -35,6 +35,7 @@
       );
 
       this.update(0, true);
+      el.classList.add("is-ready");
       el.arcoCylinderStack = this;
     }
 
@@ -149,6 +150,7 @@
       this.mm.revert();
       this.labelTl?.kill();
       this.dots.forEach((dot) => dot.parentElement.remove());
+      this.el.classList.remove("is-ready");
       delete this.el.arcoCylinderStack;
     }
 

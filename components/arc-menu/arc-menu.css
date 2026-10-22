@@ -17,8 +17,6 @@
   --arco-arc-menu-media-top: 7%;
   --arco-arc-menu-media-height: 63%;
   --arco-arc-menu-media-radius: 0.875rem;
-
-  color-scheme: dark;
 }
 
 @media (max-width: 767px) {
@@ -33,19 +31,25 @@
   }
 }
 
-*,
-*::before,
-*::after {
+/* Demo page only. Everything else is scoped to the section, so pasting the
+   component into a site never restyles the rest of the page. */
+body {
+  margin: 0;
+}
+
+.section_arco-arc-menu,
+.section_arco-arc-menu *,
+.section_arco-arc-menu *::before,
+.section_arco-arc-menu *::after {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  background-color: var(--arco-stage);
+.section_arco-arc-menu {
   color: var(--arco-ink-invert);
   font-family: var(--arco-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color-scheme: dark;
 }
 
 /* Stage */

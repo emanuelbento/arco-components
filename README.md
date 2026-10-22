@@ -44,9 +44,11 @@ Inspired by an effect from [Made With GSAP](https://madewithgsap.com). Rebuilt f
 
 | Attribute | Default | |
 | --- | --- | --- |
-| `data-arco-active` | `0` | Panel open on load |
-| `data-arco-trigger` | `hover` | `hover` or `click`. Touch always uses click |
-| `data-arco-ease` | `signature` | `signature`, `smooth` or `snappy` |
+| `data-arco-accordion-active` | `0` | Panel open on load |
+| `data-arco-accordion-trigger` | `hover` | `hover` or `click`. Touch always uses click |
+| `data-arco-accordion-ease` | `signature` | `signature`, `smooth` or `snappy` |
+
+The short names from 1.x (`data-arco-active`, `data-arco-trigger`, `data-arco-ease`) still work. An element with the class `arco-accordion_counter` inside the section shows the open panel, as in `02 / 04`. Events: `arco:init`, `arco:change` and `arco:ease`.
 
 ---
 
@@ -145,13 +147,13 @@ The height of the arc and the size of the preview are CSS variables (`--arco-arc
 Every HTML file starts with a comment listing exactly what to add. With jsDelivr, for example:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@2.0.0/components/accordion/accordion.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@2.1.0/components/accordion/accordion.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Flip.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@2.0.0/components/accordion/accordion.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/emanuelbento/arco-components@2.1.0/components/accordion/accordion.min.js"></script>
 ```
 
 jsDelivr minifies `.min.js` and `.min.css` on request. Pin a version tag in production; branch URLs like `@main` are cached for days.

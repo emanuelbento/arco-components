@@ -34,10 +34,12 @@
       this.items = gsap.utils.toArray(".arco-accordion_item", el);
       if (this.items.length < 2) return;
 
+      // data-arco-accordion-* matches the other components, data-arco-* still works
+      const data = el.dataset;
       this.options = {
-        active: Number(el.dataset.arcoActive ?? 0),
-        trigger: el.dataset.arcoTrigger ?? "hover",
-        ease: el.dataset.arcoEase ?? "signature",
+        active: Number(data.arcoAccordionActive ?? data.arcoActive ?? 0),
+        trigger: data.arcoAccordionTrigger ?? data.arcoTrigger ?? "hover",
+        ease: data.arcoAccordionEase ?? data.arcoEase ?? "signature",
         ...options,
       };
 
@@ -46,6 +48,7 @@
       this.motion = presets[this.options.ease] ?? presets.signature;
       this.abort = new AbortController();
       this.pointer = null;
+      this.counter = (el.closest("section") ?? el).querySelector(".arco-accordion_counter");
 
       el.style.setProperty("--arco-count", this.items.length);
       this.panels = this.items.map((item, i) => this.setup(item, i));
@@ -58,6 +61,7 @@
         this.reset(panel, i === this.index);
       });
       this.bind();
+      this.count();
 
       el.arcoAccordion = this;
       this.emit("init");
@@ -130,6 +134,7 @@
         this.enter(to, dir);
       }
 
+      this.count();
       this.emit("change", { index, previous: this.panels.indexOf(from) });
     }
 
@@ -145,6 +150,12 @@
       if (!presets[name]) return;
       this.motion = presets[name];
       this.emit("ease", { ease: name });
+    }
+
+    count() {
+      if (!this.counter) return;
+      const pad = (n) => String(n).padStart(2, "0");
+      this.counter.textContent = `${pad(this.index + 1)} / ${pad(this.items.length)}`;
     }
 
     toggle({ item, button, content }, open) {

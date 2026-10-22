@@ -16,8 +16,6 @@
 
   --arco-cylinder-width: min(40rem, 70vw, (100dvh - 14rem) * 16 / 9);
   --arco-cylinder-perspective: 1600px;
-
-  color-scheme: dark;
 }
 
 @media (max-width: 767px) {
@@ -29,19 +27,25 @@
   }
 }
 
-*,
-*::before,
-*::after {
+/* Demo page only. Everything else is scoped to the section, so pasting the
+   component into a site never restyles the rest of the page. */
+body {
+  margin: 0;
+}
+
+.section_arco-cylinder-stack,
+.section_arco-cylinder-stack *,
+.section_arco-cylinder-stack *::before,
+.section_arco-cylinder-stack *::after {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  background-color: var(--arco-stage);
+.section_arco-cylinder-stack {
   color: var(--arco-ink-invert);
   font-family: var(--arco-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color-scheme: dark;
 }
 
 /* Stage, pinned while the cylinder turns */
@@ -105,6 +109,12 @@ body {
   overflow: hidden;
   backface-visibility: hidden;
   background-color: #141316;
+}
+
+/* Before JS runs (and in the Webflow canvas) only the first card shows,
+   so the image matches the first label instead of the last card on top */
+.arco-cylinder-stack_component:not(.is-ready) .arco-cylinder-stack_card:not(:first-child) {
+  visibility: hidden;
 }
 
 .arco-cylinder-stack_image {

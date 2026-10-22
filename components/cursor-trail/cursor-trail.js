@@ -4,8 +4,6 @@
    ================================ */
 
 (() => {
-  gsap.config({ force3D: true });
-
   const POOL_SIZE = 30;
   const GAP = 55; // px travelled between images
   const PUSH = 40; // px each image drifts in the direction of movement
@@ -14,6 +12,11 @@
 
   const CHORD = [130.81, 164.81, 196.0, 246.94]; // C, E, G, B
   const DETUNE = [0, 6, -5, 3];
+
+  // iOS mutes Web Audio while the ring switch is on silent. Playing a silent
+  // media element inside the tap moves the page to the playback audio session.
+  const SILENCE =
+    "data:audio/wav;base64,UklGRnQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YVAAAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==";
 
   class ArcoCursorTrail {
     constructor(el) {
@@ -65,9 +68,11 @@
 
     measure() {
       this.bounds = this.el.getBoundingClientRect();
+      this.stale = false;
     }
 
     move(clientX, clientY, touch) {
+      if (this.stale) this.measure();
       this.pointer = { x: clientX - this.bounds.left, y: clientY - this.bounds.top };
       this.touch = touch;
       this.lastMove = gsap.ticker.time;
@@ -150,6 +155,13 @@
        Speed raises the volume and bends the pitch. Off until the toggle is pressed. */
 
     initSound() {
+      if (navigator.audioSession) navigator.audioSession.type = "playback";
+      else {
+        const unlock = new Audio(SILENCE);
+        unlock.setAttribute("playsinline", "");
+        unlock.play().catch(() => {});
+      }
+
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
 
       const filter = ctx.createBiquadFilter();
@@ -276,8 +288,10 @@
       this.el.addEventListener("touchend", () => this.leave(), passive);
       this.el.addEventListener("touchcancel", () => this.leave(), passive);
 
-      window.addEventListener("scroll", () => this.measure(), passive);
-      window.addEventListener("resize", () => this.measure(), passive);
+      // Scroll and resize only mark the bounds as stale, the next move measures once
+      const stale = () => (this.stale = true);
+      window.addEventListener("scroll", stale, passive);
+      window.addEventListener("resize", stale, passive);
 
       this.soundButton?.addEventListener("click", () => this.toggleSound(), { signal });
     }

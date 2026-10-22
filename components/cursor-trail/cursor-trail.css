@@ -15,8 +15,6 @@
   --arco-bar-height: 3.5rem;
 
   --arco-trail-size: clamp(8rem, 17vw, 16rem);
-
-  color-scheme: dark;
 }
 
 @media (max-width: 767px) {
@@ -27,19 +25,25 @@
   }
 }
 
-*,
-*::before,
-*::after {
+/* Demo page only. Everything else is scoped to the section, so pasting the
+   component into a site never restyles the rest of the page. */
+body {
+  margin: 0;
+}
+
+.section_arco-cursor-trail,
+.section_arco-cursor-trail *,
+.section_arco-cursor-trail *::before,
+.section_arco-cursor-trail *::after {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  background-color: var(--arco-stage);
+.section_arco-cursor-trail {
   color: var(--arco-ink-invert);
   font-family: var(--arco-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color-scheme: dark;
 }
 
 /* Stage */
@@ -53,6 +57,10 @@ body {
   padding-inline: var(--arco-stage-pad);
   overflow: clip;
   background-color: var(--arco-stage);
+  /* Dragging across the stage draws the trail, it should never select the title */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 @media (hover: hover) and (pointer: fine) {

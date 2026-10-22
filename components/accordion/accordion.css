@@ -27,8 +27,6 @@
 
   --arco-stage-pad: 1.25rem;
   --arco-bar-height: 3.5rem;
-
-  color-scheme: dark;
 }
 
 @media (max-width: 991px) {
@@ -48,19 +46,25 @@
   }
 }
 
-*,
-*::before,
-*::after {
+/* Demo page only. Everything else is scoped to the section, so pasting the
+   component into a site never restyles the rest of the page. */
+body {
+  margin: 0;
+}
+
+.section_arco-accordion,
+.section_arco-accordion *,
+.section_arco-accordion *::before,
+.section_arco-accordion *::after {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  background-color: var(--arco-stage);
+.section_arco-accordion {
   color: var(--arco-ink-invert);
   font-family: var(--arco-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color-scheme: dark;
 }
 
 /* Stage */

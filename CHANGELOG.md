@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.1.0 (2026-10-22)
+
+### Fixed
+- Cursor Trail: dragging across the stage no longer selects the title text.
+- Cursor Trail: the sound now plays on iPhones in silent mode, like Arc Menu.
+- Cylinder Stack: before the script runs (and on the Webflow canvas) the first card shows, not the last one stacked on top of it.
+- Accordion: the animated illustrations stay still with reduced motion. They moved from SMIL to CSS animations behind a `prefers-reduced-motion` query.
+
+### Changed
+- CSS no longer restyles the page. Font, colour, smoothing, `color-scheme` and `box-sizing` are scoped to each component section, so pasting a component into a site leaves the rest of it alone. Only `body { margin: 0 }` remains, for the demo pages.
+- Cursor Trail no longer sets `gsap.config({ force3D: true })` for the whole page, and measures its bounds once per move after a scroll instead of on every scroll event.
+- Accordion: options are now `data-arco-accordion-active`, `-trigger` and `-ease`, named like the other components. The 1.x names still work.
+
+### Added
+- Accordion: an optional `.arco-accordion_counter` that shows the open panel, as the other components do.
+
 ## 2.0.0 (2026-10-16)
 
 ### Changed
